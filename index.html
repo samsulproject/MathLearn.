@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Learn - Pembelajaran Matematika SMA</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Modal Form Login / Masuk -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="brand-logo">
+                <i class="fa-solid fa-square-root-variable"></i>
+                <h2>Math Learn</h2>
+            </div>
+            <p>Selamat datang! Silakan masukkan nama dan pilih kelas Anda untuk memulai belajar.</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="user-name">Nama Lengkap</label>
+                    <input type="text" id="user-name" placeholder="Masukkan nama Anda..." required>
+                </div>
+                <div class="input-group">
+                    <label for="user-class">Kelas</label>
+                    <select id="user-class" required>
+                        <option value="" disabled selected>Pilih Kelas</option>
+                        <option value="Kelas 10">Kelas 10</option>
+                        <option value="Kelas 11">Kelas 11</option>
+                        <option value="Kelas 12">Kelas 12</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Mulai Belajar <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Layout LMS -->
+    <div id="app" class="app-container hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-square-root-variable"></i>
+                <span>Math Learn</span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="nav-item active" data-target="materi">
+                    <i class="fa-solid fa-book-open"></i> <span>Materi</span>
+                </a>
+                <a href="#" class="nav-item" data-target="contoh-soal">
+                    <i class="fa-solid fa-file-pen"></i> <span>Contoh Soal</span>
+                </a>
+                <a href="#" class="nav-item" data-target="latihan-soal">
+                    <i class="fa-solid fa-list-check"></i> <span>Latihan Soal</span>
+                </a>
+                <a href="#" class="nav-item" data-target="nilai">
+                    <i class="fa-solid fa-award"></i> <span>Nilai</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> <span>Ganti Pengguna</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <button id="toggle-sidebar" class="menu-btn"><i class="fa-solid fa-bars"></i></button>
+                <div class="user-profile">
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="user-info">
+                        <h4 id="display-name">Nama Siswa</h4>
+                        <span id="display-class" class="badge">Kelas 10</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Views -->
+            <div class="content-body">
+                
+                <!-- Section 1: Materi -->
+                <section id="sec-materi" class="view-section active">
+                    <div class="section-header">
+                        <h2>Materi Pembelajaran SMA</h2>
+                        <p>Pilih dari 30 materi matematika lengkap untuk memperdalam pemahamanmu.</p>
+                    </div>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="search-materi" placeholder="Cari materi matematika...">
+                    </div>
+                    <div id="materi-grid" class="grid-cards"></div>
+                </section>
+
+                <!-- Section 2: Contoh Soal -->
+                <section id="sec-contoh-soal" class="view-section">
+                    <div class="section-header">
+                        <h2>Contoh Soal & Pembahasan</h2>
+                        <p>Pelajari pembahasan soal langkah demi langkah secara mendalam.</p>
+                    </div>
+                    <div id="contoh-soal-container" class="accordion-container"></div>
+                </section>
+
+                <!-- Section 3: Latihan Soal -->
+                <section id="sec-latihan-soal" class="view-section">
+                    <div id="quiz-selection-view">
+                        <div class="section-header">
+                            <h2>Pilih Materi Latihan</h2>
+                            <p>Kerjakan 10 soal latihan per materi untuk menguji kemampuanmu.</p>
+                        </div>
+                        <div id="quiz-topic-grid" class="grid-cards"></div>
+                    </div>
+
+                    <div id="quiz-active-view" class="quiz-card hidden">
+                        <div class="quiz-header">
+                            <h3 id="quiz-title">Judul Latihan</h3>
+                            <span id="quiz-progress" class="badge">Soal 1 / 10</span>
+                        </div>
+                        <div class="quiz-body">
+                            <p id="quiz-question" class="question-text"></p>
+                            <div id="quiz-options" class="options-group"></div>
+                        </div>
+                        <div class="quiz-footer">
+                            <button id="prev-q-btn" class="btn btn-outline" disabled>Sebelumnya</button>
+                            <button id="next-q-btn" class="btn btn-primary">Selanjutnya</button>
+                            <button id="submit-q-btn" class="btn btn-success hidden">Selesaikan Latihan</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Nilai -->
+                <section id="sec-nilai" class="view-section">
+                    <div class="section-header">
+                        <h2>Riwayat & Hasil Latihan</h2>
+                        <p>Pantau perkembangan belajar dan skor yang telah kamu capai.</p>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Materi</th>
+                                    <th>Jumlah Soal</th>
+                                    <th>Benar</th>
+                                    <th>Salah</th>
+                                    <th>Nilai Akhir</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="nilai-table-body">
+                                <!-- Data dimasukkan via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Detail Materi -->
+    <div id="materi-modal" class="modal-overlay hidden">
+        <div class="modal-card modal-lg">
+            <button class="close-modal" id="close-materi-modal">&times;</button>
+            <h2 id="modal-materi-title">Judul Materi</h2>
+            <hr>
+            <div id="modal-materi-content" class="materi-detail-text"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
